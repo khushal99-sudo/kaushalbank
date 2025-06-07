@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Apply for Job – Kaushal Bank</title>
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #111;
+      color: #eee;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: #1b1b1b;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #00ffc8;
+    }
+
+    h1 {
+      color: #00ffc8;
+      margin-bottom: 1rem;
+      text-align: center;
+    }
+
+    label {
+      margin-top: 1rem;
+      display: block;
+      font-weight: bold;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 10px;
+      background: #222;
+      color: #eee;
+      border: 1px solid #333;
+      border-radius: 5px;
+      margin-top: 5px;
+    }
+
+    button {
+      background: #00ffc8;
+      color: #000;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 1.5rem;
+      cursor: pointer;
+    }
+
+    #message {
+      margin-top: 1rem;
+      font-weight: bold;
+      color: #00ffc8;
+      text-align: center;
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        margin: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Apply for a Job</h1>
+    <form id="jobForm">
+      <label>Full Name</label>
+      <input type="text" id="fullName" required>
+
+      <label>Email</label>
+      <input type="email" id="email" required>
+
+      <label>Mobile Number</label>
+      <input type="tel" id="mobileNumber" placeholder="10-digit number" pattern="[0-9]{10}" required>
+
+      <label>Date of Birth</label>
+      <input type="date" id="dob" required>
+
+      <label>Gender</label>
+      <select id="gender" required>
+        <option value="">Select</option>
+        <option>Male</option>
+        <option>Female</option>
+        <option>Other</option>
+      </select>
+
+      <label>Role Applying For</label>
+      <select id="role" required>
+        <option value="">Select</option>
+        <option>Field Executive</option>
+        <option>Customer Support</option>
+        <option>KYC Officer</option>
+      </select>
+
+      <label>Experience</label>
+      <textarea id="experience" rows="3"></textarea>
+
+      <label>Expected Salary</label>
+      <input type="text" id="salary">
+
+      <label>State</label>
+      <input type="text" id="state" required>
+
+      <label>City</label>
+      <input type="text" id="city" required>
+
+      <label>Preferred Location</label>
+      <input type="text" id="location" required>
+
+      <button type="submit">Submit</button>
+      <div id="message"></div>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("jobForm");
+    const message = document.getElementById("message");
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbw2loX0LhfqkyrO1S37ENO6sq8WUn096-49d_YsOX57iNVggx9yoJ_wO7Cng1Jab1-VyA/exec"; // Replace this!
+
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+
+      const data = {
+        fullName: document.getElementById("fullName").value.trim(),
+        email: document.getElementById("email").value.trim(),
+        mobileNumber: "+91" + document.getElementById("mobileNumber").value.trim(),
+        dob: document.getElementById("dob").value,
+        gender: document.getElementById("gender").value,
+        role: document.getElementById("role").value,
+        experience: document.getElementById("experience").value.trim(),
+        salary: document.getElementById("salary").value.trim(),
+        state: document.getElementById("state").value.trim(),
+        city: document.getElementById("city").value.trim(),
+        location: document.getElementById("location").value.trim()
+      };
+
+      fetch(scriptURL, {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data)
+      })
+      .then(response => {
+        form.reset();
+        message.textContent = "Application submitted successfully!";
+      })
+      .catch(error => {
+        console.error("Error!", error);
+        message.textContent = "Error submitting form. Try again.";
+        message.style.color = "red";
+      });
+    });
+  </script>
+</body>
+</html>
